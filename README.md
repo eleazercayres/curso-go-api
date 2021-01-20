@@ -8,7 +8,7 @@ cd curso-go-api.git
 
 ### Correr aplicação
 ```shell
-go run main
+go run main.go
 ```
 
 ### Testar
