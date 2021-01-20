@@ -8,7 +8,36 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 )
+
+func GetClientHandler(writer http.ResponseWriter, request *http.Request) {
+	if request.Method != "GET" {
+		http.Error(writer, fmt.Sprintf("Method %s not expected", request.Method), http.StatusMethodNotAllowed)
+		return
+	}
+
+	var idParam = request.URL.Query().Get("id")
+
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		http.Error(writer, "ID should be int", http.StatusBadRequest)
+	}
+
+	for _, c := range services.Clients {
+		if c.ID == id {
+			// found it
+			response, err := json.Marshal(c)
+			writer.WriteHeader(http.StatusOK)
+			_, err = writer.Write(response)
+			if err != nil {
+				http.Error(writer, "error sending response", http.StatusInternalServerError)
+			}
+		}
+	}
+
+	writer.WriteHeader(http.StatusNotFound)
+}
 
 func ListClientsHandler(writer http.ResponseWriter, request *http.Request) {
 	if request.Method != "GET" {
