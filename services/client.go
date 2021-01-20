@@ -5,8 +5,9 @@ import (
 	"math/rand"
 )
 
-type ClientService struct {
+var Clients []entities.Client = make([]entities.Client, 0)
 
+type ClientService struct {
 }
 
 func NewClientService() ClientService {
@@ -22,5 +23,8 @@ func (s ClientService) CreateClientFrom(request entities.PostClientRequest) (ent
 	}
 
 	client.ID = rand.Intn(1000)
+
+	Clients = append(Clients, client)
+
 	return client, nil
 }

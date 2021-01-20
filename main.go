@@ -15,7 +15,7 @@ func main() {
 
 	fmt.Println("Start http server at port " + HttpPort)
 	err := http.ListenAndServe(fmt.Sprintf(":%s", HttpPort), nil)
-	if err!= nil {
+	if err != nil {
 		panic(err)
 	}
 }
@@ -23,4 +23,5 @@ func main() {
 func CreateRoutes() {
 	http.HandleFunc("/api/healthy", handlers.HealthyHandler)
 	http.HandleFunc("/api/create-client", handlers.CreateClientHandler)
+	http.HandleFunc("/api/list", handlers.ListClientsHandler)
 }

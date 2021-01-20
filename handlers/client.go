@@ -10,6 +10,21 @@ import (
 	"net/http"
 )
 
+func ListClientsHandler(writer http.ResponseWriter, request *http.Request) {
+	if request.Method != "GET" {
+		http.Error(writer, fmt.Sprintf("Method %s not expected", request.Method), http.StatusMethodNotAllowed)
+		return
+	}
+
+	response, err := json.Marshal(services.Clients)
+
+	writer.WriteHeader(http.StatusOK)
+	_, err = writer.Write(response)
+	if err != nil {
+		http.Error(writer, "error sending response", http.StatusInternalServerError)
+	}
+}
+
 func CreateClientHandler(writer http.ResponseWriter, request *http.Request) {
 	if request.Method != "POST" {
 		http.Error(writer, fmt.Sprintf("Method %s not expected", request.Method), http.StatusMethodNotAllowed)
