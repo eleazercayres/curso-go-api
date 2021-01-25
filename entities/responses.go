@@ -9,6 +9,18 @@ type PostClientResponse struct {
 	PhoneNumber PhoneNumber `json:"phone_number"`
 }
 
+type GetClientResponse struct {
+	ID          int         `json:"id"`
+	FirstName   string      `json:"first_name"`
+	LastName    string      `json:"last_name"`
+	Age         int         `json:"age"`
+}
+
+type GetClientsResponse struct {
+	Total   int                 `json:"total"`
+	Clients []GetClientResponse `json:"clients"`
+}
+
 func NewPostClientResponse(client Client) PostClientResponse {
 	return PostClientResponse{
 		ID:          client.ID,
@@ -18,4 +30,32 @@ func NewPostClientResponse(client Client) PostClientResponse {
 		Age:         client.Age,
 		PhoneNumber: client.PhoneNumber,
 	}
+}
+
+func NewGetClientResponseFrom(client Client) GetClientResponse {
+	return GetClientResponse{
+		ID:        client.ID,
+		FirstName: client.FirstName,
+		LastName:  client.LastName,
+		Age:       client.Age,
+	}
+}
+
+func NewClientsResponseFromClients(clients []Client) GetClientsResponse {
+	var clientResponse GetClientsResponse
+
+	for _, client := range clients {
+		response := GetClientResponse{
+			ID:          client.ID,
+			FirstName:   client.FirstName,
+			LastName:    client.LastName,
+			Age:         client.Age,
+		}
+
+		clientResponse.Clients = append(clientResponse.Clients, response)
+	}
+
+	clientResponse.Total = len(clientResponse.Clients)
+
+	return clientResponse
 }

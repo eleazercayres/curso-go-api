@@ -5,6 +5,8 @@ import (
 	"math/rand"
 )
 
+var Clients []entities.Client = make([]entities.Client, 0)
+
 type ClientService struct {
 
 }
@@ -22,5 +24,13 @@ func (s ClientService) CreateClientFrom(request entities.PostClientRequest) (ent
 	}
 
 	client.ID = rand.Intn(1000)
+
+	Clients = append(Clients, client)
+
 	return client, nil
 }
+
+func (s ClientService) ListClients() ([]entities.Client, error) {
+	return Clients, nil
+}
+
