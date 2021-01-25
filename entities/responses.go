@@ -1,7 +1,10 @@
 package entities
 
+import uuid "github.com/satori/go.uuid"
+
 type PostClientResponse struct {
 	ID          int         `json:"id"`
+	UUID        uuid.UUID   `json:"uuid"`
 	FirstName   string      `json:"first_name"`
 	LastName    string      `json:"last_name"`
 	FullName    string      `json:"full_name"`
@@ -10,10 +13,11 @@ type PostClientResponse struct {
 }
 
 type GetClientResponse struct {
-	ID          int         `json:"id"`
-	FirstName   string      `json:"first_name"`
-	LastName    string      `json:"last_name"`
-	Age         int         `json:"age"`
+	UUID      uuid.UUID `json:"uuid"`
+	ID        int       `json:"id"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Age       int       `json:"age"`
 }
 
 type GetClientsResponse struct {
@@ -24,6 +28,7 @@ type GetClientsResponse struct {
 func NewPostClientResponse(client Client) PostClientResponse {
 	return PostClientResponse{
 		ID:          client.ID,
+		UUID:        client.UUID,
 		FirstName:   client.FirstName,
 		LastName:    client.LastName,
 		FullName:    client.GetFullName(),
@@ -34,6 +39,7 @@ func NewPostClientResponse(client Client) PostClientResponse {
 
 func NewGetClientResponseFrom(client Client) GetClientResponse {
 	return GetClientResponse{
+		UUID:      client.UUID,
 		ID:        client.ID,
 		FirstName: client.FirstName,
 		LastName:  client.LastName,
@@ -46,10 +52,10 @@ func NewClientsResponseFromClients(clients []Client) GetClientsResponse {
 
 	for _, client := range clients {
 		response := GetClientResponse{
-			ID:          client.ID,
-			FirstName:   client.FirstName,
-			LastName:    client.LastName,
-			Age:         client.Age,
+			ID:        client.ID,
+			FirstName: client.FirstName,
+			LastName:  client.LastName,
+			Age:       client.Age,
 		}
 
 		clientResponse.Clients = append(clientResponse.Clients, response)

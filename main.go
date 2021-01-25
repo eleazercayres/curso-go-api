@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/filipefernandes007/curso-go-api/api/handlers"
+	"github.com/filipefernandes007/go-curso/api/handlers"
 	"net/http"
 )
 
