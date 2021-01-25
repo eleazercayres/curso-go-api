@@ -25,4 +25,5 @@ func CreateRoutes() {
 	http.HandleFunc("/api/create-client", handlers.CreateClientHandler)
 	http.HandleFunc("/api/list", handlers.ListClientsHandler)
 	http.HandleFunc("/api/client", handlers.GetClientHandler)
+	http.HandleFunc("/api/clientUUID", handlers.GetClientFromUUIDHandler)
 }

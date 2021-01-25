@@ -5,12 +5,41 @@ import (
 	"fmt"
 	"github.com/filipefernandes007/curso-go-api/api/entities"
 	"github.com/filipefernandes007/curso-go-api/api/services"
+	uuid "github.com/satori/go.uuid"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
 )
 
+func GetClientFromUUIDHandler(writer http.ResponseWriter, request *http.Request) {
+	if request.Method != "GET" {
+		http.Error(writer, fmt.Sprintf("Method %s not expected", request.Method), http.StatusMethodNotAllowed)
+		return
+	}
+
+	var uuidStringParam = request.URL.Query().Get("uuid")
+
+	uuidParam, err := uuid.FromString(uuidStringParam)
+	if err != nil {
+		http.Error(writer, "should be uuid", http.StatusBadRequest)
+	}
+
+	for _, c := range services.Clients {
+		if c.UUID == uuidParam {
+			// found it
+			response, err := json.Marshal(c)
+			writer.WriteHeader(http.StatusOK)
+			_, err = writer.Write(response)
+			if err != nil {
+				http.Error(writer, "error sending response", http.StatusInternalServerError)
+			}
+			return
+		}
+	}
+
+	writer.WriteHeader(http.StatusNotFound)
+}
 func GetClientHandler(writer http.ResponseWriter, request *http.Request) {
 	if request.Method != "GET" {
 		http.Error(writer, fmt.Sprintf("Method %s not expected", request.Method), http.StatusMethodNotAllowed)
@@ -33,6 +62,7 @@ func GetClientHandler(writer http.ResponseWriter, request *http.Request) {
 			if err != nil {
 				http.Error(writer, "error sending response", http.StatusInternalServerError)
 			}
+			return
 		}
 	}
 

@@ -2,6 +2,7 @@ package services
 
 import (
 	"github.com/filipefernandes007/curso-go-api/api/entities"
+	uuid "github.com/satori/go.uuid"
 	"math/rand"
 )
 
@@ -23,6 +24,7 @@ func (s ClientService) CreateClientFrom(request entities.PostClientRequest) (ent
 	}
 
 	client.ID = rand.Intn(1000)
+	client.UUID = uuid.NewV4()
 
 	Clients = append(Clients, client)
 

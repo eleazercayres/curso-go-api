@@ -1,7 +1,10 @@
 package entities
 
+import uuid "github.com/satori/go.uuid"
+
 type Client struct {
 	ID          int
+	UUID        uuid.UUID
 	FirstName   string
 	LastName    string
 	Age         int
